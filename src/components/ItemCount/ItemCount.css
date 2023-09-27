@@ -1,0 +1,17 @@
+.btn_border {
+  border-top: 1px rgb(195, 192, 192) solid;
+  border-bottom: 1px rgb(195, 192, 192) solid;
+  border-radius: 5px;
+  width: 100%;
+  background-color: rgb(246, 245, 245);
+}
+
+.btn1 {
+  box-shadow: 4px 4px 10px -5px;
+}
+
+/* Agrega esto a tu archivo CSS o al estilo de tus botones */
+.btn1.btn-outline-secondary:active {
+  color: black;
+  background-color: #fff;
+}

@@ -1,0 +1,43 @@
+.navbar-logo {
+  height: 3rem;
+  border-radius: 8px;
+}
+
+.ul-navbar {
+  width: 50%;
+  max-width: 450px;
+  margin-left: 3rem;
+}
+
+.navbarsm {
+  border-bottom: 1px solid rgb(225, 219, 219);
+}
+
+.text-deco {
+  text-decoration: none;
+}
+
+.container-icons {
+  width: 15.625vw;
+  min-width: 200px;
+}
+
+.container-nav {
+  margin: 0 48px;
+  padding: 0 48px;
+}
+
+.nav-img {
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .container-nav, .nav-img {
+    margin: 0;
+    padding: 0 30px;
+  }
+}
+
+.nav-right-links {
+  color: #000;
+}
