@@ -7,7 +7,7 @@ import { calcularCantidadTotal } from "../Cart/Cart"; */
 const CartWidget = () => {
 /*   const { carrito } = useContext(CarritoContext);
   const totalCantidad = calcularCantidadTotal(carrito); */
-  const imgCarrito = "../../../public/carrito-de-compras.png"
+  const imgCarrito = "/carrito-de-compras.png"
   return (
     <Link to='/cart' className='link-carrito-container'>
         <img className='carritoDeCompras img-fluid' src={imgCarrito} alt="carrito de compras de great templates" />

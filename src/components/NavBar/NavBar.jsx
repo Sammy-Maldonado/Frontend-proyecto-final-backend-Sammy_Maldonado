@@ -65,7 +65,7 @@ const NavBar = () => {
   return (
     <nav className="navbarsm navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-nav container-fluid">
-        <Link to={'/'}><img className='nav-img navbar-logo img-fluid' src="../../../public/p-logo.png" alt="logo de great templates" /></Link>
+        <Link to={'/'}><img className='nav-img navbar-logo img-fluid' src="/p-logo.png" alt="logo de great templates" /></Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
