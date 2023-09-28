@@ -167,7 +167,7 @@ const Cards = () => {
                   title={product.title}
                   price={product.price}
                   stock={product.stock}
-                  imageSource={`${baseUrl}/${product.thumbnails}`}
+                  imageSource={product.thumbnails}
                   description={product.description}
                   user={user}
                   cart={cart}
