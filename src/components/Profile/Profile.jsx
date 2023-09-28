@@ -44,7 +44,7 @@ const Profile = () => {
                 <div className="d-flex text-black">
                   <div className="flex-shrink-0">
                     <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                      src="https://static.wikia.nocookie.net/joke-battles/images/d/df/Gigachad.png/revision/latest?cb=20230812064835"
                       alt="Generic placeholder image"
                       className="imagen-perfil img-fluid"
                     />
