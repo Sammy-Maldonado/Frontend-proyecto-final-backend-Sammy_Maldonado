@@ -86,7 +86,6 @@ const NavBar = () => {
           <Link className="nav-right-links" onClick={handleLogout} >
             <LogoutIcon fontSize='large' />
           </Link>
-
           <Link className="nav-right-links" to={'/'}>
             <HomeIcon fontSize='large' />
           </Link>
