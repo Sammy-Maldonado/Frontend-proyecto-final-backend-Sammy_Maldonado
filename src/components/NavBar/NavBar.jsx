@@ -47,6 +47,8 @@ const NavBar = () => {
         },
         credentials: 'include'
       });
+
+      console.log(response);
   
         if (response.ok) {
           /* window.location.replace('/'); */
