@@ -48,11 +48,12 @@ const NavBar = () => {
         credentials: 'include'
       });
 
-      /* if (response.ok) {
-        window.location.reload();
+      if (response.ok) {
+        // Redirige al usuario a la página de inicio de sesión después del logout
+        window.location.replace('/');
       } else {
         console.error('Error al realizar el logout.');
-      } */
+      }
     } catch (error) {
       console.error('Error:', error);
     }
