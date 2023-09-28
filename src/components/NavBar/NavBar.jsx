@@ -48,14 +48,12 @@ const NavBar = () => {
         credentials: 'include'
       });
   
-      // Esperar 3 segundos antes de redirigir
-      setTimeout(() => {
         if (response.ok) {
-          window.location.replace('/');
+          /* window.location.replace('/'); */
         } else {
           console.error('Error al realizar el logout.');
         }
-      }, 3000); // 3000 milisegundos = 3 segundos
+
     } catch (error) {
       console.error('Error:', error);
     }
