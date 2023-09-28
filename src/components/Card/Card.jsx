@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Swal from 'sweetalert2'
 
 
-const Card = ({ title, imageSource, description, stock, id, cart }) => {
+const Card = ({ title, imageSource, description, stock, user, id, cart }) => {
   const [itemCount, setItemCount] = useState(1); // Inicializa itemCount en 1
 
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;

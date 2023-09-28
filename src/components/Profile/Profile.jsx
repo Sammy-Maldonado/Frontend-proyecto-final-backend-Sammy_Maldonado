@@ -1,37 +1,9 @@
 import React from 'react'
 import './profile.css'
-import { useState, useEffect } from 'react'
 
-const Profile = () => {
-  const [user, setUser] = useState(null);
+const Profile = ({user}) => {
 
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Realizar una solicitud GET al servidor para obtener los datos del usuario actual
-        const response = await fetch(`${baseUrl}/api/sessions/current`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-
-        if (!response.ok) {
-          throw new Error('No se pudo completar la solicitud.');
-        }
-
-        // Manejar la respuesta aquí
-        const data = await response.json();
-        console.log('Datos del usuario actual:', data.payload);
-        const userData = data.payload;
-        setUser(userData);
-      } catch (error) {
-        console.error('Error al obtener los datos del usuario:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
 
   return (

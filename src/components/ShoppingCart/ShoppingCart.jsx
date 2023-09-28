@@ -5,26 +5,17 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom';
 
-const ShoppingCart = () => {
+const ShoppingCart = ({user}) => {
   const [cart, setCart] = useState(null);
   let totalAmount = 0;
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
 
   useEffect(() => {
+    if (user && user.email) { 
     const fetchUserData = async () => {
       try {
-        // Realizar una solicitud GET al servidor para obtener los datos del usuario actual
-        const userResponse = await fetch(`${baseUrl}/api/sessions/current`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-
-        if (!userResponse.ok) {
-          throw new Error('No se pudo completar la solicitud de usuario.');
-        }
-
-        const userData = await userResponse.json();
-        const userCartEmail = userData.payload.email;
+        //mail del usuario
+        const userCartEmail = user.email;
 
         // Una vez que tengas el email del usuario, puedes usarlo para buscar el carrito
         const cartResponse = await fetch(`${baseUrl}/api/carts`, {
@@ -49,8 +40,9 @@ const ShoppingCart = () => {
       }
     };
 
-    fetchUserData(); // Llama a la función asincrónica al cargar el componente
-  }, []);
+    fetchUserData();  // Llama a la función asincrónica al cargar el componente
+   } 
+  }, [user, baseUrl]);
 
   const handlePagar = async () => {
     try {

@@ -4,8 +4,7 @@ import './cards.css'
 import { useEffect, useState } from 'react'
 
 /* Aqui hago el llamado a la API */
-const Cards = () => {
-  const [user, setUser] = useState(null);
+const Cards = ({user}) => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -13,32 +12,6 @@ const Cards = () => {
 
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Realizar una solicitud GET al servidor para obtener los datos del usuario actual
-        const response = await fetch(`${baseUrl}/api/sessions/current`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-  
-        if (!response.ok) {
-          throw new Error('No se pudo completar la solicitud.');
-        }
-  
-        // Manejar la respuesta aquí
-        const data = await response.json();
-        /* console.log('Datos del usuario actual:', data.payload); */  // Los datos del usuario se encuentran en "data.payload"
-        const userData = data.payload;
-        setUser(userData);
-        // Hacer algo con los datos del usuario, como establecerlos en el estado del componente
-      } catch (error) {
-        console.error('Error al obtener los datos del usuario:', error);
-      }
-    };
-  
-    fetchData();
-  }, []);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -106,46 +79,36 @@ const Cards = () => {
   };
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Realizar una solicitud GET al servidor para obtener los datos del usuario actual
-        const userResponse = await fetch(`${baseUrl}/api/sessions/current`, {
-          method: 'GET',
-          credentials: 'include',
-        });
+    if (user && user.email) { // Verifica que 'user' y 'user.email' estén definidos
+      const fetchUserData = async () => {
+        try {
+          const userCartEmail = user.email;
   
-        if (!userResponse.ok) {
-          throw new Error('No se pudo completar la solicitud de usuario.');
+          // Realiza la solicitud para obtener el carrito del usuario utilizando 'userCartEmail'
+          const cartResponse = await fetch(`${baseUrl}/api/carts`, {
+            method: 'GET',
+            credentials: 'include',
+          });
+  
+          if (!cartResponse.ok) {
+            throw new Error('No se pudo completar la solicitud de carrito.');
+          }
+  
+          const cartData = await cartResponse.json();
+          const userCart = cartData.payload.find((cart) => cart.email === userCartEmail);
+  
+          if (userCart) {
+            console.log('Carrito del usuario:', userCart);
+            setCart(userCart);
+          }
+        } catch (error) {
+          console.error('Error al obtener los datos del usuario o carrito:', error);
         }
+      };
   
-        const userData = await userResponse.json();
-        const userCartEmail = userData.payload.email;
-  
-        // Una vez que tengas el email del usuario, puedes usarlo para buscar el carrito
-        const cartResponse = await fetch(`${baseUrl}/api/carts`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-  
-        if (!cartResponse.ok) {
-          throw new Error('No se pudo completar la solicitud de carrito.');
-        }
-  
-        const cartData = await cartResponse.json();
-        const userCart = cartData.payload.find((cart) => cart.email === userCartEmail);
-        
-        if (userCart) {
-          console.log('Carrito del usuario:', userCart);
-          setCart(userCart);
-        }
-
-      } catch (error) {
-        console.error('Error al obtener los datos del usuario o carrito:', error);
-      }
-    };
-  
-    fetchUserData(); // Llama a la función asincrónica al cargar el componente
-  }, []);
+      fetchUserData();
+    }
+  }, [user, baseUrl]);
 
   return (
     <>

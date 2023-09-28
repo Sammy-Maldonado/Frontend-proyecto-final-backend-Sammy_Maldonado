@@ -7,36 +7,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 
-const NavBar = () => {
-  const [user, setUser] = useState(null);
+const NavBar = ({user}) => {
 
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Realizar una solicitud GET al servidor para obtener los datos del usuario actual
-        const response = await fetch(`${baseUrl}/api/sessions/current`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-
-        if (!response.ok) {
-          throw new Error('No se pudo completar la solicitud.');
-        }
-
-        // Manejar la respuesta aquí
-        const data = await response.json();
-        /* console.log('Datos del usuario actual:', data.payload); */  // Los datos del usuario se encuentran en "data.payload"
-        const userData = data.payload;
-        setUser(userData);
-      } catch (error) {
-        console.error('Error al obtener los datos del usuario:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handleLogout = async () => {
     try {
@@ -51,7 +24,7 @@ const NavBar = () => {
       console.log(response);
   
         if (response.ok) {
-          /* window.location.replace('/'); */
+          window.location.replace('/');
         } else {
           console.error('Error al realizar el logout.');
         }
