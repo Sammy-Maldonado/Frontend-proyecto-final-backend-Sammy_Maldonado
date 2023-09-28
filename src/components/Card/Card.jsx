@@ -60,7 +60,7 @@ const Card = ({ title, imageSource, description, stock, id, cart }) => {
 
   return (
     <div className='card-container mb-4'>
-      <div className='card rounded-3'>
+      <div className='card-container2 card rounded-3'>
         <img src={imageSource} alt="" className='card-img-top rounded-top-2' />
 
         <div className='card-body'>

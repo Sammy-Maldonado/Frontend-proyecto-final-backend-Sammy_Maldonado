@@ -10,6 +10,9 @@
   box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.75);
   display: flex; /* Importante para hacer que el contenido se ajuste verticalmente */
   flex-direction: column; /* Coloca el contenido en una columna vertical */
+}
+
+.card-container2 {
   max-width: 310px;
 }
 
