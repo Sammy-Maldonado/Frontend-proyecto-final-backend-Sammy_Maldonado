@@ -21,14 +21,14 @@ function App() {
           method: 'GET',
           credentials: 'include',
         });
-  
+
         if (!response.ok) {
           throw new Error('No se pudo completar la solicitud.');
         }
-  
+
         // Manejar la respuesta aquí
         const data = await response.json();
-        /* console.log('Datos del usuario actual:', data.payload); */  // Los datos del usuario se encuentran en "data.payload"
+        console.log('Datos del usuario actual:', data.payload);  // Los datos del usuario se encuentran en "data.payload"
         const userData = data.payload;
         setUser(userData);
         // Hacer algo con los datos del usuario, como establecerlos en el estado del componente
@@ -36,7 +36,7 @@ function App() {
         console.error('Error al obtener los datos del usuario:', error);
       }
     };
-  
+
     fetchData();
   }, []);
 
