@@ -167,7 +167,7 @@ const Cards = () => {
                   title={product.title}
                   price={product.price}
                   stock={product.stock}
-                  imageSource={`http://localhost:8080${product.thumbnails}`}
+                  imageSource={`${baseUrl}/${product.thumbnails}`}
                   description={product.description}
                   user={user}
                   cart={cart}
