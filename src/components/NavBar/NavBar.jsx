@@ -49,8 +49,12 @@ const NavBar = () => {
       });
 
       if (response.ok) {
-        // Redirige al usuario a la página de inicio de sesión después del logout
-        window.location.replace('/');
+        // Espera un breve período de tiempo (por ejemplo, 1000 ms) antes de hacer la solicitud para obtener los datos del usuario
+      setTimeout(() => {
+
+        // Redirige al usuario a la página de inicio de sesión o a la página principal
+        window.location.replace('/'); // Cambia la URL a la página deseada
+      }, 1000);
       } else {
         console.error('Error al realizar el logout.');
       }
