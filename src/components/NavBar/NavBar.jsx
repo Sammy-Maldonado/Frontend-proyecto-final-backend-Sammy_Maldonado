@@ -49,8 +49,7 @@ const NavBar = () => {
       });
 
       if (response.ok) {
-        // Redirige al usuario a la página de inicio de sesión después del logout
-        window.location.replace('/');
+        window.location.reload();
       } else {
         console.error('Error al realizar el logout.');
       }
