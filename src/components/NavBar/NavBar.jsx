@@ -6,8 +6,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 
-const NavBar = (/* {user} */) => {
-
+const NavBar = ({user}) => {
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
 
   const handleLogout = async () => {
@@ -34,7 +33,7 @@ const NavBar = (/* {user} */) => {
   };
 
   // Determina la URL de redirección en función de la existencia del usuario
- /*  const redirectURL = user ? '/profile' : '/login'; */
+  const redirectURL = user ? '/profile' : '/login';
 
   return (
     <nav className="navbarsm navbar navbar-expand-lg bg-body-tertiary">
@@ -63,7 +62,7 @@ const NavBar = (/* {user} */) => {
           <Link className="nav-right-links" to={'/'}>
             <HomeIcon fontSize='large' />
           </Link>
-          <Link className="nav-right-links" /* to={redirectURL} */>
+          <Link className="nav-right-links" to={redirectURL}>
             <PersonIcon fontSize='large' />
           </Link>
           <CartWidget />

@@ -10,9 +10,9 @@ import { useEffect, useState } from 'react'
 
 function App() {
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
-/*   const [user, setUser] = useState(null); */
+  const [user, setUser] = useState(null);
 
-/*   useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         // Realizar una solicitud GET al servidor para obtener los datos del usuario actual
@@ -37,20 +37,20 @@ function App() {
     };
 
     fetchData();
-  }, []); */
+  }, []);
 
   return (
     <>
       <div className='App'>
         <BrowserRouter>
-          <NavBar /* user={user} */ />
+          <NavBar user={user} />
           <div className="content-container">
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/login' element={<SignUp />} />
-              <Route path='/profile' element={<Profile /* user={user}  *//>} />
-              <Route path='/products' element={<Cards /* user={user}  *//>} />
-              <Route path='/cart' element={<ShoppingCart /* user={user}  *//>} />
+              <Route path='/profile' element={<Profile user={user} />} />
+              <Route path='/products' element={<Cards user={user} />} />
+              <Route path='/cart' element={<ShoppingCart user={user} />} />
             </Routes>
           </div>
         </BrowserRouter>
