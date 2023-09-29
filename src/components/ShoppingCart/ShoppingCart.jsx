@@ -5,15 +5,43 @@ import ClearIcon from '@mui/icons-material/Clear';
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom';
 
-const ShoppingCart = ({user}) => {
+const ShoppingCart = (/* {user} */) => {
   const [cart, setCart] = useState(null);
+  const [user, setUser] = useState(null);
   let totalAmount = 0;
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
 
   useEffect(() => {
-    if (user && user.email) { 
+    /*     if (user && user.email) {  */
     const fetchUserData = async () => {
       try {
+        useEffect(() => {
+          const fetchData = async () => {
+            try {
+              // Realizar una solicitud GET al servidor para obtener los datos del usuario actual
+              const response = await fetch(`${baseUrl}/api/sessions/current`, {
+                method: 'GET',
+                credentials: 'include',
+              });
+
+              if (!response.ok) {
+                throw new Error('No se pudo completar la solicitud.');
+              }
+
+              // Manejar la respuesta aquí
+              const data = await response.json();
+              console.log('Datos del usuario actual:', data.payload);  // Los datos del usuario se encuentran en "data.payload"
+              const userData = data.payload;
+              setUser(userData);
+              // Hacer algo con los datos del usuario, como establecerlos en el estado del componente
+            } catch (error) {
+              console.error('Error al obtener los datos del usuario:', error);
+            }
+          };
+
+          fetchData();
+        }, []);
+
         //mail del usuario
         const userCartEmail = user.email;
 
@@ -41,7 +69,7 @@ const ShoppingCart = ({user}) => {
     };
 
     fetchUserData();  // Llama a la función asincrónica al cargar el componente
-   } 
+    /*    }  */
   }, [user, baseUrl]);
 
   const handlePagar = async () => {
