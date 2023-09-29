@@ -7,45 +7,24 @@ import ShoppingCart from './components/ShoppingCart/ShoppingCart'
 import NavBar from './components/NavBar/NavBar'
 import Profile from './components/Profile/Profile'
 import { useEffect, useState } from 'react'
-import UsersService from './services/usersService'
+import SessionsService from './services/sessionsService'
 
 function App() {
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
-  const [user, setUser] = useState(null);
-  const [axiosUsers, setAxiosUsers] = useState([]);
-
-  useEffect(() => {
-    const getUsers = async () => {
-      const userService = new UsersService();
-      const response = await userService.getUsers();
-      console.log(response);
-      const users = response.data.payload;
-      setAxiosUsers(users);
-    }
-    getUsers();
-  },[])
-
-  console.log(axiosUsers);
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Realizar una solicitud GET al servidor para obtener los datos del usuario actual
-        const response = await fetch(`${baseUrl}/api/sessions/current`, {
-          method: 'GET',
-          credentials: 'include',
-        });
+        const sessionsService = new SessionsService();
+        const response = await sessionsService.currentUser();
+        const userData = response.data.payload
+        setUser(userData)
 
-        if (!response.ok) {
+        if (!response.data.status === "success") {
           throw new Error('No se pudo completar la solicitud.');
         }
-
-        // Manejar la respuesta aquí
-        const data = await response.json();
-        console.log('Datos del usuario actual:', data.payload);  // Los datos del usuario se encuentran en "data.payload"
-        const userData = data.payload;
-        setUser(userData);
-        // Hacer algo con los datos del usuario, como establecerlos en el estado del componente
       } catch (error) {
         console.error('Error al obtener los datos del usuario:', error);
       }

@@ -1,9 +1,10 @@
 import React from 'react'
 import './card.css'
 import PropTypes from 'prop-types'
-import ItemCount from '../ItemCount/ItemCount';
-import { useState } from 'react';
+import ItemCount from '../ItemCount/ItemCount'
+import { useState } from 'react'
 import Swal from 'sweetalert2'
+import CartsService from '../../services/cartsService'
 
 
 const Card = ({ title, imageSource, description, stock, user, id, cart }) => {
@@ -22,17 +23,11 @@ const Card = ({ title, imageSource, description, stock, user, id, cart }) => {
       const pid = id; // Obtiene el id del producto
       const quantity = itemCount; // Obtiene la cantidad del producto
 
-      const response = await fetch(`${baseUrl}/api/carts/${cid}/product/${pid}`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ quantity }),
-      });
+      const cartService = new CartsService();
+      const response = await cartService.addProductToCart(cid, pid, quantity);
 
-      if (!response.ok) {
-        throw new Error('No se pudo completar la solicitud de agregar al carrito.');
+      if (!response.data.status === "success") {
+        throw new Error('No se pudo completar la solicitud.');
       }
 
       // Realiza alguna acción adicional si la solicitud fue exitosa

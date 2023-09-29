@@ -4,91 +4,83 @@ import { useState, useEffect } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom';
+import CartsService from '../../services/cartsService';
 
-const ShoppingCart = ({user}) => {
+const ShoppingCart = ({ user }) => {
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
   const [cart, setCart] = useState(null);
-  
+
   let totalAmount = 0;
 
   useEffect(() => {
-    if (user && user.email) { 
-    const fetchUserData = async () => {
-      try {
-        //mail del usuario
-        const userCartEmail = user.email;
+    if (user && user.email) {
+      const fetchUserData = async () => {
+        try {
+          //email del usuario
+          const userCartEmail = user.email;
 
-        // Una vez que tengas el email del usuario, puedes usarlo para buscar el carrito
-        const cartResponse = await fetch(`${baseUrl}/api/carts`, {
-          method: 'GET',
-          credentials: 'include',
-        });
+          const cartService = new CartsService();
+          const response = await cartService.getCarts();
 
-        if (!cartResponse.ok) {
-          throw new Error('No se pudo completar la solicitud de carrito.');
+          if (!response.data.status === "success") {
+            throw new Error('No se pudo completar la solicitud.');
+          }
+
+          //Manejando la respuesta
+          const cartData = response.data.payload;
+
+          //carrito del usuario
+          const userCart = cartData.find((cart) => cart.email === userCartEmail);
+
+          if (userCart) {
+            /* console.log('Carrito del usuario:', userCart); */
+            setCart(userCart);
+          }
+
+        } catch (error) {
+          console.error('Error al obtener los datos del usuario o carrito:', error);
         }
+      };
 
-        const cartData = await cartResponse.json();
-        const userCart = cartData.payload.find((cart) => cart.email === userCartEmail);
-
-        if (userCart) {
-          console.log('Carrito del usuario:', userCart);
-          setCart(userCart);
-        }
-
-      } catch (error) {
-        console.error('Error al obtener los datos del usuario o carrito:', error);
-      }
-    };
-
-    fetchUserData();  // Llama a la función asincrónica al cargar el componente
-   } 
-  }, []);
+      fetchUserData();
+    }
+  }, [user]);
 
   const handlePagar = async () => {
     try {
-      const userPurchase = await fetch(`${baseUrl}/api/carts/${cart._id}/purchase`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
+      if(cart && cart._id) {
+        const cartId = cart._id;
+        const cartService = new CartsService();
+        const response = await cartService.purchaseCart(cartId);
+  
+        if (!response.data.status === "success") {
+          throw new Error('No se pudo completar la solicitud.');
         }
-      })
-
-      if (!userPurchase.ok) {
-        throw new Error('No se pudo completar la solicitud de compra.');
+  
+        const clearCartResponse = await cartService.clearCart(cartId);
+  
+        if (!clearCartResponse.data.status === "success") {
+          throw new Error('No se pudo completar la solicitud.');
+        }
+  
+        // Alerta cuando la compra es exitosa
+        Swal.fire({
+          title: 'Compra realizada con éxito',
+          html: `
+              <p>Muchas Gracias por su compra !</p>
+              <p>Se ha enviado un <strong>correo electronico</strong> con los detalles de su compra</p>
+            `,
+          icon: 'success',
+          showConfirmButton: true,
+          confirmButtonText: 'Ver más productos',
+          confirmButtonColor: '#198754',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // El usuario hizo clic en "Ir al carrito"
+            window.location.href = '/products';
+          }
+        });
       }
-
-      const clearCart = await fetch(`${baseUrl}/api/carts/${cart._id}`, {
-        method: 'DELETE',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-
-      if (!clearCart.ok) {
-        throw new Error('No se pudo vaciar el carrito.');
-      }
-
-      // Alerta cuando la compra es exitosa
-      Swal.fire({
-        title: 'Compra realizada con éxito',
-        html: `
-            <p>Muchas Gracias por su compra !</p>
-            <p>Se ha enviado un <strong>correo electronico</strong> con los detalles de su compra</p>
-          `,
-        icon: 'success',
-        showConfirmButton: true,
-        confirmButtonText: 'Ver más productos',
-        confirmButtonColor: '#198754',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          // El usuario hizo clic en "Ir al carrito"
-          window.location.href = '/products';
-        }
-      });
-
     } catch (error) {
       console.error(error);
     }
@@ -98,13 +90,11 @@ const ShoppingCart = ({user}) => {
     try {
 
       // Realizar una solicitud DELETE al backend para eliminar el producto del carrito
-      const response = await fetch(`${baseUrl}/api/carts/${cartId}/product/${productId}`, {
-        method: 'DELETE',
-        credentials: 'include',
-      });
+      const cartService = new CartsService();
+      const clearProductFromCart = await cartService.removeProdutFromCart(cartId, productId);
 
-      if (!response.ok) {
-        throw new Error('No se pudo eliminar el producto del carrito.');
+      if (!clearProductFromCart.data.status === "success") {
+        throw new Error('No se pudo completar la solicitud.');
       }
 
       // Actualizar el estado del carrito después de eliminar el producto

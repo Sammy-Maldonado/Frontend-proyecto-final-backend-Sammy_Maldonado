@@ -2,28 +2,26 @@ import AxiosClient from "./axiosClient";
 import { getJSONheaders } from "../utils/http";
 const baseUrl = import.meta.env.VITE_BAKCEND_URL;
 
-export default class UsersService {
+export default class SessionsService {
   constructor() {
     this.client = new AxiosClient();
-    this.baseURL = `${baseUrl}/api/users`
+    this.baseURL = `${baseUrl}/api/sessions`
   }
 
-  getUsers = () => {
+  currentUser = () => {
     const requestInfo = {
-      url: this.baseURL
+      url:`${this.baseURL}/current`,
+      config: getJSONheaders()
     };
     return this.client.makeGetRequest(requestInfo);
   }
 
-  createUser = (body) => {
+  logoutUser = (body) => {
     const requestInfo = {
-      url:this.baseURL,
+      url:`${this.baseURL}/logout`,
       body,
       config:getJSONheaders()
     }
     return this.client.makePostRequest(requestInfo);
   }
-
-
-  
 }
