@@ -5,11 +5,15 @@ import { Link } from 'react-router-dom'
 import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
+import AxiosClient from "../../services/axiosClient";
+import { getJSONheaders } from "../../utils/http";
+
+const axiosClient = new AxiosClient();
 
 const NavBar = ({user}) => {
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
 
-  const handleLogout = async () => {
+  /* const handleLogout = async () => {
     try {
       const response = await fetch(`${baseUrl}/api/sessions/logout`, {
         method: 'POST',
@@ -27,6 +31,28 @@ const NavBar = ({user}) => {
           console.error('Error al realizar el logout.');
         }
 
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }; */
+
+  const handleLogout = async () => {
+    try {
+      const requestInfo = {
+        url: `${baseUrl}/api/sessions/logout`,
+        config: getJSONheaders()
+      };
+  
+      const response = await axiosClient.makePostRequest(requestInfo);
+  
+      console.log(response);
+  
+      if (response.status === 200) {
+        window.location.replace('/');
+      } else {
+        console.error('Error al realizar el logout.');
+      }
+  
     } catch (error) {
       console.error('Error:', error);
     }

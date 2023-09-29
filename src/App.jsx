@@ -7,10 +7,25 @@ import ShoppingCart from './components/ShoppingCart/ShoppingCart'
 import NavBar from './components/NavBar/NavBar'
 import Profile from './components/Profile/Profile'
 import { useEffect, useState } from 'react'
+import UsersService from './services/usersService'
 
 function App() {
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
   const [user, setUser] = useState(null);
+  const [axiosUsers, setAxiosUsers] = useState([]);
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const userService = new UsersService();
+      const response = await userService.getUsers();
+      console.log(response);
+      const users = response.data.payload;
+      setAxiosUsers(users);
+    }
+    getUsers();
+  },[])
+
+  console.log(axiosUsers);
 
   useEffect(() => {
     const fetchData = async () => {
