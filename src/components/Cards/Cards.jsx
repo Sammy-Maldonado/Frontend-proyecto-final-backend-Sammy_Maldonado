@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import ProductsService from '../../services/productsService'
 import CartsService from '../../services/cartsService'
 
+
 /* Aqui hago el llamado a la API */
 const Cards = ({ user }) => {
   const [products, setProducts] = useState([]);
@@ -97,7 +98,7 @@ const Cards = ({ user }) => {
 
       fetchUserData();
     }
-  }, [user]);
+  }, []);
 
   return (
     <>

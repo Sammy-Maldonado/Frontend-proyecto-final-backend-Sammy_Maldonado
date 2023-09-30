@@ -6,6 +6,7 @@ import Home from './components/Home/Home'
 import ShoppingCart from './components/ShoppingCart/ShoppingCart'
 import NavBar from './components/NavBar/NavBar'
 import Profile from './components/Profile/Profile'
+import UserManagement from './components/UserManagement/UserManagement'
 import { useEffect, useState } from 'react'
 import SessionsService from './services/sessionsService'
 
@@ -45,6 +46,7 @@ function App() {
               <Route path='/profile' element={<Profile user={user} />} />
               <Route path='/products' element={<Cards user={user} />} />
               <Route path='/cart' element={<ShoppingCart user={user} />} />
+              <Route path='/adminview' element={<UserManagement />} />
             </Routes>
           </div>
         </BrowserRouter>

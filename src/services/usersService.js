@@ -10,7 +10,8 @@ export default class UsersService {
 
   getUsers = () => {
     const requestInfo = {
-      url: this.baseURL
+      url: this.baseURL,
+      config:getJSONheaders()
     };
     return this.client.makeGetRequest(requestInfo);
   }
@@ -24,6 +25,12 @@ export default class UsersService {
     return this.client.makePostRequest(requestInfo);
   }
 
-
+  changeRole = (userId) => {
+    const requestInfo = {
+      url:`${this.baseURL}/premium/${userId}`,
+      config:getJSONheaders()
+    }
+    return this.client.makePutRequest(requestInfo);
+  }
   
 }

@@ -38,7 +38,7 @@ const Profile = ({user}) => {
                       </div>
                       <div className=''>
                         <p className="d-flex justify-content-center small text-muted mb-1">last connection</p>
-                        <p className="text-center mb-0">{user && user.last_connection.replace(/\sGMT-\d{4}/, '')}</p>
+                        <p className="text-center mb-0">{user && user.last_connection ? user.last_connection.replace(/\sGMT-\d{4}/, '') : 'N/A'}</p>
                       </div>
                     </div>
                     <div className="d-flex pt-1">

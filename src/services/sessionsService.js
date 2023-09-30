@@ -16,10 +16,9 @@ export default class SessionsService {
     return this.client.makeGetRequest(requestInfo);
   }
 
-  logoutUser = (body) => {
+  logoutUser = () => {
     const requestInfo = {
       url:`${this.baseURL}/logout`,
-      body,
       config:getJSONheaders()
     }
     return this.client.makePostRequest(requestInfo);

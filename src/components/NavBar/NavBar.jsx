@@ -6,29 +6,76 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 import SessionsService from '../../services/sessionsService'
+import Swal from 'sweetalert2';
 
 
-const NavBar = ({user}) => {
+const NavBar = ({ user }) => {
   const baseUrl = import.meta.env.VITE_BAKCEND_URL;
 
   const handleLogout = async () => {
     try {
-      const sessionsService = new SessionsService();
-      const response = await sessionsService.logoutUser();
-  
-      if (response.status === 200) {
+      if (user && user.role != "admin") {
+        const sessionsService = new SessionsService();
+        const response = await sessionsService.logoutUser();
         window.location.replace('/');
-      } else {
-        console.error('Error al realizar el logout.');
       }
-  
+
+      if (user && user.role === "admin") {
+        window.location.replace('/');
+        const sessionsService = new SessionsService();
+        const response = await sessionsService.logoutUser();
+      }
+      
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  // Determina la URL de redirección en función de la existencia del usuario
-  const redirectURL = user ? '/profile' : '/login';
+  const adminHandleRedirect = async () => {
+    try {
+      if (user && user.role === "admin") {
+        window.location.replace('/adminview');
+      } else {
+        Swal.fire({
+          title: 'Vista exclusiva para Administradores',
+          html: `
+              <p>Por favor, solicite los permisos correspondientes antes de seguir.</p>
+            `,
+          icon: 'error',
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#198754',
+        })
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  const handlePersonIconRedirect = async () => {
+    try {
+      if (!user) {
+        window.location.replace('/login');
+      }
+      if (user.role != "admin") {
+        window.location.replace('/profile');
+      } else {
+        Swal.fire({
+          title: 'Vista exclusiva para usuarios',
+          html: `
+              <p>Por favor, solicite los permisos correspondientes antes de seguir.</p>
+            `,
+          icon: 'error',
+          showConfirmButton: true,
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#198754',
+        })
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
 
   return (
     <nav className="navbarsm navbar navbar-expand-lg bg-body-tertiary">
@@ -48,6 +95,9 @@ const NavBar = ({user}) => {
             <li className="nav-item">
               <Link className="nav-link" to={'/cart'}> <strong>Carrito</strong> </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" onClick={adminHandleRedirect} > <strong>Users Managment</strong> </Link>
+            </li>
           </ul>
         </div>
         <div className='container-icons d-flex justify-content-between'>
@@ -57,7 +107,7 @@ const NavBar = ({user}) => {
           <Link className="nav-right-links" to={'/'}>
             <HomeIcon fontSize='large' />
           </Link>
-          <Link className="nav-right-links" to={redirectURL}>
+          <Link className="nav-right-links" onClick={handlePersonIconRedirect} >
             <PersonIcon fontSize='large' />
           </Link>
           <CartWidget />
