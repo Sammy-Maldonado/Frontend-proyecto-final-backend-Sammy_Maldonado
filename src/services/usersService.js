@@ -33,4 +33,11 @@ export default class UsersService {
     return this.client.makePutRequest(requestInfo);
   }
   
+  deleteUser = (userId) => {
+    const requestInfo = {
+      url:`${this.baseURL}/${userId}`,
+      config:getJSONheaders()
+    }
+    return this.client.makeDeleteRequest(requestInfo);
+  }
 }

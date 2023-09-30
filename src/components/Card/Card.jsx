@@ -7,10 +7,12 @@ import Swal from 'sweetalert2'
 import CartsService from '../../services/cartsService'
 
 
-const Card = ({ title, imageSource, description, stock, user, id, cart }) => {
+const Card = ({ title, imageSource, description, stock, user, id }) => {
+  const baseUrl = import.meta.env.VITE_BAKCEND_URL;
+  const [cart, setCart] = useState([]);   //SEGUIR OBTENIENDO EL CART ID
   const [itemCount, setItemCount] = useState(1); // Inicializa itemCount en 1
 
-  const baseUrl = import.meta.env.VITE_BAKCEND_URL;
+
 
   // Esta función actualizará itemCount en Card.jsx
   const handleItemCountChange = (newItemCount) => {
@@ -19,14 +21,28 @@ const Card = ({ title, imageSource, description, stock, user, id, cart }) => {
 
   const handleAgregar = async () => {
     try {
-      const cid = cart._id; // Obtiene el _id del carrito
+      const userCartEmail = user.email;
+
+      const cartService = new CartsService();
+      const response = await cartService.getCarts();
+
+      if (!response.data.status === "success") {
+        throw new Error('No se pudo completar la solicitud.');
+      }
+
+      //Manejando la respuesta
+      const cartData = response.data.payload
+
+      const userCart = cartData.find((cart) => cart.email === userCartEmail);
+      setCart(userCart);
+
+      const cid = userCart._id; // Obtiene el _id del carrito
       const pid = id; // Obtiene el id del producto
       const quantity = itemCount; // Obtiene la cantidad del producto
 
-      const cartService = new CartsService();
-      const response = await cartService.addProductToCart(cid, pid, quantity);
+      const response2 = await cartService.addProductToCart(cid, pid, quantity);
 
-      if (!response.data.status === "success") {
+      if (!response2.data.status === "success") {
         throw new Error('No se pudo completar la solicitud.');
       }
 

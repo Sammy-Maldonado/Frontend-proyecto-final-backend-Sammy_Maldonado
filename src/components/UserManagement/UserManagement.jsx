@@ -48,6 +48,17 @@ const UserManagementView = () => {
     setUsers(allUsers)
   }
 
+  const handleRemoveUser = async (userId) => {
+    const usersService = new UsersServices();
+    const responseUsers = await usersService.deleteUser(userId);
+    const newUsers = responseUsers.data.payload;
+    console.log(newUsers);
+
+    const responseUsers3 = await usersService.getUsers();
+    const allUsers = responseUsers3.data.payload;
+    setUsers(allUsers)
+  }
+
   return (
     <div className="container-xl">
       <div className="table-responsive">
@@ -68,15 +79,15 @@ const UserManagementView = () => {
                 <th>Name</th>
                 <th>Date Created</th>
                 <th>Role</th>
-                <th>Status</th>
+{/*                 <th>Status</th> */}
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {
-                users.map(user => (
+                users.map((user,index) => (
                   <tr key={user.email}>
-                    <td>1</td>
+                    <td>{index + 1}</td>
                     <td>
                       <a href="#">
                         {/* <img
@@ -89,9 +100,9 @@ const UserManagementView = () => {
                     </td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
-                    <td>
+{/*                     <td>
                       <span className="status text-success">•</span> Active
-                    </td>
+                    </td> */}
                     <td>
                       <a
                         href="#"
@@ -107,7 +118,7 @@ const UserManagementView = () => {
                         title="Delete"
                         data-toggle="tooltip"
                       >
-                        <CancelIcon />
+                        <CancelIcon onClick={() => handleRemoveUser(user.id)}/>
                       </a>
                     </td>
                   </tr>

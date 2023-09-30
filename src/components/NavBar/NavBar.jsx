@@ -85,7 +85,7 @@ const NavBar = ({ user }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul className="ul-navbar navbar-nav d-flex justify-content-between">
+          <ul className="ul-navbar navbar-nav d-flex justify-content-between w-100">
             <li className="nav-item">
               <Link className="nav-link active" aria-current="page" to={'/'}> <strong>Inicio</strong> </Link>
             </li>

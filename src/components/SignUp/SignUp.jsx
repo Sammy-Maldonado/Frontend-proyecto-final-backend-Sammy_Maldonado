@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './SignUp.css';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { Link } from 'react-router-dom';
+/* import ProductsServices from '../../services/productsService' */
 
 const SignUp = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -98,6 +99,7 @@ const SignUp = () => {
       console.log(responseData);
       if (responseData === 200) {
         window.location.replace('/products');
+
       }
 
     } catch (error) {
